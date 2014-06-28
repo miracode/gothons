@@ -15,27 +15,22 @@ of the map."""
 # THE BRIDGE - Battle scene where hero places the bomb
 # ESCAPE POD - Where hero escapes after guessing the right one
 
-### NOUNS ###
+### CLASSES ###
 # Alien
 # Player
-# Ship
-# Maze
-# Room 
-# Scene 
 # Gothon 
-# Escape Pod 
+# Ship
 # Planet 
 # Map 
+    # - next scene
+    # - opening scene
+# Scene 
+    # - enter / description
+    # Death 
+    # Central Corridor 
+    # Laser Weapon Armory 
+    # The Bridge 
+    # Escape Pod 
 # Engine 
-# Death 
-# Central Corridor 
-# Laser Weapon Armory 
-# The Bridge 
+    # - play
 
-### VERBS ###
-# Invaded 
-# Go through maze 
-# Defeat 
-# Escape 
-# Print description
-# Run room

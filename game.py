@@ -3,6 +3,14 @@ from random import randint
 
 class Map(object):
 
+    scenes = {
+        'central_corridor': CentralCorridor(),
+        'laser_weapon_armory': LaserWeaponArmory(),
+        'the_bridge': TheBridge(),
+        'escape_pod': EscapePod(),
+        'death': Death()
+    }
+
     def __init__(self, start_scene):
         pass
 

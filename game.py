@@ -3,6 +3,8 @@ from random import randint
 
 class Scene(object):
 
+    code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
+
     def enter(self):
         print "You have just entered a room"
         exit(1)
@@ -11,7 +13,7 @@ class Scene(object):
 class Engine(object):
 
     def __init__(self, scene_map):
-        print "Engine __init__ has scene_map", scene_map
+        #print "Engine __init__ has scene_map", scene_map
         self.scene_map = scene_map
 
     def play(self):
@@ -54,7 +56,7 @@ class CentralCorridor(Scene):
 
         action = raw_input("> ")
 
-        if action == "shoot!":
+        if action.lower() in ("shoot", "fire"):
             print "Quick on the draw you yank out your blaster and fire it at the Gothon."
             print "His clown costume is flowing and moving around his body, which throws"
             print "off your aim.  Your laser hits his costume but misses him entirely.  This"
@@ -63,16 +65,14 @@ class CentralCorridor(Scene):
             print "you are dead.  Then he eats you."
             return 'death'
 
-        elif action == "dodge!":
+        elif action.lower() in ("dodge", "evade", "run"):
             print "Like a world class boxer you dodge, weave, slip and slide right"
             print "as the Gothon's blaster cranks a laser past your head."
-            print "In the middle of your artful dodge your foot slips and you"
-            print "bang your head on the metal wall and pass out."
-            print "You wake up shortly after only to die as the Gothon stomps on"
-            print "your head and eats you."
-            return 'death'
+            print "In the middle of your artful dodge your sneak into"
+            print "an unmarked room."
+            return 'unmarked_room'
 
-        elif action == "tell a joke":
+        elif action.lower() in ("tell a joke", "joke"):
             print "Lucky for you they made you learn Gothon insults in the academy."
             print "You tell the one Gothon joke you know:"
             print "Lbhe zbgure vf fb sng, jura fur fvgf nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr."
@@ -86,6 +86,17 @@ class CentralCorridor(Scene):
             return 'central_corridor'
 
 
+class UnmarkedRoom(Scene):
+
+    def enter(self):
+        print "You enter into the unmarked room.  In fear of finding more Gothons"
+        print "you stay close to the walls.  Upon crossing ther room you notice a key"
+        print "tag wedged between two bricks.  A Gothon must have lost this, there are"
+        print "three tags with %s, %s, and %s dots respectively." % (self.code[0], self.code[1], self.code[2])
+        print "There are no other doors so you head back to the central corridor."
+        raw_input(">")
+        return 'central_corridor'
+
 class LaserWeaponArmory(Scene):
 
     def enter(self):
@@ -96,16 +107,16 @@ class LaserWeaponArmory(Scene):
         print "and you need the code to get the bomb out.  If you get the code"
         print "wrong 10 times then the lock closes forever and you can't"
         print "get the bomb.  The code is 3 digits."
-        code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
+        #code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
         guess = raw_input("[keypad]> ")
         guesses = 0
 
-        while guess != code and guesses < 10:
+        while guess != self.code and guesses < 9:
             print "BZZZZEDDD!"
             guesses += 1
             guess = raw_input("[keypad]> ")
 
-        if guess == code:
+        if guess == self.code:
             print "The container clicks open and the seal breaks, letting gas out."
             print "You grab the neutron bomb and run as fast as you can to the"
             print "bridge where you must place it in the right spot."
@@ -196,7 +207,8 @@ class Map(object):
         'laser_weapon_armory': LaserWeaponArmory(),
         'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
-        'death': Death()
+        'death': Death(),
+        'unmarked_room': UnmarkedRoom()
     }
 
     def __init__(self, start_scene):

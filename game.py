@@ -18,7 +18,7 @@ class Engine(object):
 
     def play(self):
         current_scene = self.scene_map.opening_scene()
-        print "Play's first scence", current_scene
+        #print "Play's first scence", current_scene
         print "The Gothons of Planet Percal #25 have invaded your ship and destroyed"
         print "your entire crew.  You are the last surviving member and your last"
         print "mission is to get the neutron destruct bomb from the Weapons Armory,"
@@ -53,26 +53,23 @@ class Death(Scene):
 class CentralCorridor(Scene):
 
     def enter(self):
-        print "You are in the central corridor the central corridor."
-        print "The room is long and cylindrical with strange markings above"
-        print "the doors.  To the right looks like a weapon armory.  To the left"
-        print "there is an unmarked door."
-        
+        print "You are in the central corridor."
 
         action = raw_input("> ")
 
         if action.lower() in ("look", "look around", "view"):
-            print "There's not much to see here.  The weapons armory is to the right"
-            print "and a strange unmarked room is to the left"
+            print "The room is long and cylindrical with strange markings above"
+            print "the doors.  To the right looks like the Weapons Armory.  To the left"
+            print "there is an unmarked door."
             return 'central_corridor'
 
-        elif action.lower() in ("unmarked", "unmarked room"):
+        elif action.lower() in ("unmarked", "unmarked room", "left"):
             #TODO - figure out how to say "like" in if statements above
             print "You are brave and head into the unmarked room."
             return 'unmarked_room'
 
         elif action.lower() in ("weapon", "weapons", "armory", "weapon armory", 
-                        "weapons armory"):
+                        "weapons armory", "right"):
             print "You grab hold of the cold knob of the weapon armory door "
             print "and head in."
             return 'laser_weapon_armory'
@@ -83,15 +80,38 @@ class CentralCorridor(Scene):
 
 
 class UnmarkedRoom(Scene):
+    #doesn't show up
+    print "Inside the unmarked room there is no light."
 
     def enter(self):
-        print "You enter into the unmarked room.  In fear of finding more Gothons"
-        print "you stay close to the walls.  Upon crossing ther room you notice a key"
-        print "tag wedged between two bricks.  A Gothon must have lost this, there are"
-        print "three tags with %s, %s, and %s dots respectively." % (self.code[0], self.code[1], self.code[2])
-        print "There are no other doors so you head back to the central corridor."
-        raw_input(">")
-        return 'central_corridor'
+        
+        action = raw_input("> ")
+
+        if action in ("look", "view"):
+            print "There's not much to see, but the walls have an interesting texture."
+            return "unmarked_room"
+
+        elif action in ("touch", "feel", "touch wall", "wall", "walls"):
+            print "The walls in this room are made of an interesting brick."
+            print "They are slimy and jagged.  Staying close to the wall you notice"
+            print "a loose brick."
+            return 'unmarked_room'
+
+        elif action in ("brick", "move brick"):
+            print "You remove a loose, slimy brick from the wall.  Three cards fall out"
+            print "with dots on them.  One has %s dots, the next %s dots, and the last" % (self.code[2], self.code[0])
+            print "%s dots.  You take note and put them back so a Gothon doesn't" % self.code[1]
+            print "find out you've been here."
+            return 'unmarked_room'
+
+        elif action in ("go back", "back", "central corridor", "central"):
+            print "You decide to head back to the central corridor where you can see."
+            return 'central_corridor'
+
+        else:
+            print "DOES NOT COMPUTE!"
+            return 'unmarked_room'
+        
 
 class LaserWeaponArmory(Scene):
 

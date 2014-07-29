@@ -80,11 +80,10 @@ class CentralCorridor(Scene):
 
 
 class UnmarkedRoom(Scene):
-    #doesn't show up
-    print "Inside the unmarked room there is no light."
 
     def enter(self):
-        
+        print "You are inside the unmarked room and there is no light to see."
+
         action = raw_input("> ")
 
         if action in ("look", "view"):
@@ -116,13 +115,10 @@ class UnmarkedRoom(Scene):
 class LaserWeaponArmory(Scene):
 
     def enter(self):
-        print "You do a dive roll into the Weapon Armory, crouch and scan the room"
-        print "for more Gothons that might be hiding.  It's dead quiet, too quiet."
-        print "You stand up and run to the far side of the room and find the"
-        print "neutron bomb in its container.  There's a keypad lock on the box"
-        print "and you need the code to get the bomb out.  If you get the code"
-        print "wrong 10 times then the lock closes forever and you can't"
-        print "get the bomb.  The code is 3 digits."
+        print "Inside the Weapon Armory you notice a container across the room."
+        print "The label suggests this is the neutron bomb.  There's a keypad lock on the box"
+        print "and you need the code to get the bomb out.  Only 10 guesses are"
+        print "permitted at a time.  There are only 3 spots to fill with a digit."
         #code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
         guess = raw_input("[keypad]> ")
         guesses = 0
@@ -139,11 +135,19 @@ class LaserWeaponArmory(Scene):
             return 'the_bridge'
 
         else:
-            print "The lock buzzes one last time and then you hear a sickening"
-            print "melting sound as the mechanism is fused together."
-            print "You decide to sit there, and finally the Gothons blow up the"
-            print "ship from their ship and you die."
-            return 'death'
+            print "The lock buzzes one last time and the keypad no longer registers your touch."
+
+            action = raw_input("> ")
+
+            if action in ("go back", "central corridor", "leave", "look", "back"):
+                print "Maybe the code is lying around somewhere.  You try"
+                print "heading back to the central corridor."
+                return 'central_corridor'
+
+            else:
+                print "You don't know what to do next, so you curl into a ball"
+                print "and wait for the Gothons to blow up the ship."
+                return 'death'
 
 class TheBridge(Scene):
 
@@ -157,7 +161,7 @@ class TheBridge(Scene):
 
         action = raw_input("> ")
 
-        if action == "throw the bomb":
+        if action in ("throw the bomb", "bomb", "throw"):
             print "In a panic you throw the bomb at the group of Gothons"
             print "and make a leap for the door.  Right as you drop it a"
             print "Gothon shoots you right in the back killing you."
@@ -166,7 +170,7 @@ class TheBridge(Scene):
             print "it goes off."
             return 'death'
 
-        elif action == "slowly place the bomb":
+        elif action in ("slowly place the bomb", "place bomb", "place"):
             print "You point your blaster at the bomb under your arm"
             print "and the Gothons put their hands up and start to sweat."
             print "You inch backward to the door, open it, and then carefully"

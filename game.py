@@ -25,10 +25,10 @@ class Engine(object):
         print "put it in the bridge, and blow the ship up after getting into an "
         print "escape pod."
         print "\n"
-        print "You're running down the central corridor to the Weapons Armory when"
-        print "a Gothon jumps out, red scaly skin, dark grimy teeth, and evil clown costume"
-        print "flowing around his hate filled body.  He's blocking the door to the"
-        print "Armory and about to pull a weapon to blast you."
+        #print "You're running down the central corridor to the Weapons Armory when"
+        #print "a Gothon jumps out, red scaly skin, dark grimy teeth, and evil clown costume"
+        #print "flowing around his hate filled body.  He's blocking the door to the"
+        #print "Armory and about to pull a weapon to blast you."
 
         while True:
         #    print "\n----------"
@@ -53,39 +53,33 @@ class Death(Scene):
 class CentralCorridor(Scene):
 
     def enter(self):
-        print "Back in the central corridor the central corridor "
+        print "You are in the central corridor the central corridor."
+        print "The room is long and cylindrical with strange markings above"
+        print "the doors.  To the right looks like a weapon armory.  To the left"
+        print "there is an unmarked door."
         
 
         action = raw_input("> ")
 
-        if action.lower() in ("shoot", "fire"):
-            print "Quick on the draw you yank out your blaster and fire it at the Gothon."
-            print "His clown costume is flowing and moving around his body, which throws"
-            print "off your aim.  Your laser hits his costume but misses him entirely.  This"
-            print "completely ruins his brand new costume his mother bought him, which"
-            print "makes him fly into an insane rage and blast you repeatedly in the face until"
-            print "you are dead.  Then he eats you."
-            return 'death'
+        if action.lower() in ("look", "look around", "view"):
+            print "There's not much to see here.  The weapons armory is to the right"
+            print "and a strange unmarked room is to the left"
+            return 'central_corridor'
 
-        elif action.lower() in ("dodge", "evade", "run"):
-            print "Like a world class boxer you dodge, weave, slip and slide right"
-            print "as the Gothon's blaster cranks a laser past your head."
-            print "In the middle of your artful dodge your sneak into"
-            print "an unmarked room."
-            return 'unmarked room'
+        elif action.lower() in ("unmarked", "unmarked room"):
+            #TODO - figure out how to say "like" in if statements above
+            print "You are brave and head into the unmarked room."
+            return 'unmarked_room'
 
-        elif action.lower() in ("tell a joke", "joke"):
-            print "Lucky for you they made you learn Gothon insults in the academy."
-            print "You tell the one Gothon joke you know:"
-            print "Lbhe zbgure vf fb sng, jura fur fvgf nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr."
-            print "The Gothon stops, tries not to laugh, then busts out laughing and can't move."
-            print "While he's laughing you run up and shoot him square in the head"
-            print "putting him down, then jump through the Weapon Armory door."
-            return 'laser weapon armory'
+        elif action.lower() in ("weapon", "weapons", "armory", "weapon armory", 
+                        "weapons armory"):
+            print "You grab hold of the cold knob of the weapon armory door "
+            print "and head in."
+            return 'laser_weapon_armory'
 
         else:
             print "DOES NOT COMPUTE!"
-            return 'central corridor'
+            return 'central_corridor'
 
 
 class UnmarkedRoom(Scene):
@@ -97,7 +91,7 @@ class UnmarkedRoom(Scene):
         print "three tags with %s, %s, and %s dots respectively." % (self.code[0], self.code[1], self.code[2])
         print "There are no other doors so you head back to the central corridor."
         raw_input(">")
-        return 'central corridor'
+        return 'central_corridor'
 
 class LaserWeaponArmory(Scene):
 
@@ -122,7 +116,7 @@ class LaserWeaponArmory(Scene):
             print "The container clicks open and the seal breaks, letting gas out."
             print "You grab the neutron bomb and run as fast as you can to the"
             print "bridge where you must place it in the right spot."
-            return 'the bridge'
+            return 'the_bridge'
 
         else:
             print "The lock buzzes one last time and then you hear a sickening"
@@ -161,11 +155,11 @@ class TheBridge(Scene):
             print "and blast the lock so the Gothons can't get out."
             print "Now that the bomb is placed you run to the escape pod to"
             print "get off this tin can."
-            return 'escape pod'
+            return 'escape_pod'
 
         else:
             print "DOES NOT COMPUTE!"
-            return "the bridge" 
+            return "the_bridge" 
 
 
 class EscapePod(Scene):
@@ -205,17 +199,17 @@ class EscapePod(Scene):
 class Map(object):
 
     scenes = {
-        'central corridor': CentralCorridor(),
-        'laser weapon armory': LaserWeaponArmory(),
-        'the bridge': TheBridge(),
-        'escape pod': EscapePod(),
+        'central_corridor': CentralCorridor(),
+        'laser_weapon_armory': LaserWeaponArmory(),
+        'the_bridge': TheBridge(),
+        'escape_pod': EscapePod(),
         'death': Death(),
-        'unmarked room': UnmarkedRoom()
+        'unmarked_room': UnmarkedRoom()
     }
 
     def __init__(self, start_scene):
         self.start_scene = start_scene
-        print "start_scene in __init__", self.start_scene
+        #print "start_scene in __init__", self.start_scene
 
     def next_scene(self, scene_name):
         #print "start_scene in next_scene"
@@ -227,6 +221,6 @@ class Map(object):
         return self.next_scene(self.start_scene)
 
 
-a_map = Map('central corridor')
+a_map = Map('central_corridor')
 a_game = Engine(a_map)
 a_game.play()
